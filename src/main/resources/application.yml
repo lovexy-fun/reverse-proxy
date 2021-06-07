@@ -4,8 +4,8 @@ application:
   description: Reverse proxy system based on nginx.
 
 admin:
-  username: 1
-  password: 1
+  username: admin
+  password: admin
 
 nginx:
   home: E:\ProjectSpace\IDEAProjects\reverse-proxy\nginx
@@ -15,7 +15,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlite:E:\reverse-proxy.db
+    url: jdbc:sqlite:E:\ProjectSpace\IDEAProjects\reverse-proxy\reverse-proxy.db
     driver-class-name: org.sqlite.JDBC
   jackson:
     time-zone: GMT+8
