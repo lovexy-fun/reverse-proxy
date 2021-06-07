@@ -1,0 +1,37 @@
+application:
+  version: v1.0
+  name: reverse-proxy
+  description: Reverse proxy system based on nginx.
+
+admin:
+  username: 1
+  password: 1
+
+nginx:
+  home: E:\ProjectSpace\IDEAProjects\reverse-proxy\nginx
+
+server:
+  port: 8999
+
+spring:
+  datasource:
+    url: jdbc:sqlite:E:\reverse-proxy.db
+    driver-class-name: org.sqlite.JDBC
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  banner:
+    location: banner.txt
+  thymeleaf:
+    enabled: true
+  mvc:
+    static-path-pattern: /static/**
+
+logging:
+  level:
+    fun.lovexy.reverseproxy: debug
+  file:
+    path: logs
+
+mybatis-plus:
+  mapper-locations: classpath:*/mapper/*Mapper.xml

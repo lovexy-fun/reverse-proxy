@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.lovexy.reverseproxy.mapper.MappingMapper">
+
+    <resultMap id="BaseResultMap" type="fun.lovexy.reverseproxy.entity.Mapping">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="selfPort" column="self_port" jdbcType="INTEGER"/>
+            <result property="proxyIp" column="proxy_ip" jdbcType="VARCHAR"/>
+            <result property="proxyPort" column="proxy_port" jdbcType="INTEGER"/>
+            <result property="proxyDescription" column="proxy_description" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTimestamp" column="create_timestamp" jdbcType="INTEGER"/>
+            <result property="modifyTimestamp" column="modify_timestamp" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,self_port,proxy_ip,
+        proxy_port,proxy_description,status,
+        create_timestamp,modify_timestamp
+    </sql>
+</mapper>

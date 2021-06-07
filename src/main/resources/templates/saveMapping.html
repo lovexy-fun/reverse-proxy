@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>保存</title>
+    <th:block th:include="include :: common-head" />
+</head>
+<body>
+    <div style="margin-top: 20px; margin-right: 50px">
+        <form class="layui-form">
+            <input type="hidden" id="id" name="id" th:value="${mapping} != null ? ${mapping.id} : ''">
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="selfPort">代理端口</label>
+                <div class="layui-input-block">
+                    <input th:value="${mapping} != null ? ${mapping.selfPort} : ''" type="number" min="0" max="65535" id="selfPort" name="selfPort" required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="proxyIp">内网IP</label>
+                <div class="layui-input-block">
+                    <input th:value="${mapping} != null ? ${mapping.proxyIp} : ''" type="text" id="proxyIp" name="proxyIp" required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="proxyPort">内网端口</label>
+                <div class="layui-input-block">
+                    <input th:value="${mapping} != null ? ${mapping.proxyPort} : ''" type="number" min="0" max="65535" id="proxyPort" name="proxyPort" required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="proxyDescription">描述</label>
+                <div class="layui-input-block">
+                    <textarea th:text="${mapping} != null ? ${mapping.proxyDescription} : ''" id="proxyDescription" name="proxyDescription" class="layui-input"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center">
+                <button type="submit" lay-submit lay-filter="save" class="layui-btn layui-btn-normal">确定</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        onSubmit("save", function (data) {
+            ajaxPost(ctx + "/manage/save", data.field, function (res) {
+                if (res.success) {
+                    layer.msg("保存成功", function () {
+                        closeWin(function () {
+                            tableReload("mapping-table");
+                        });
+                    });
+                } else {
+                    layer.msg("保存失败");
+                }
+            });
+        }, true);
+    });
+</script>
+</html>

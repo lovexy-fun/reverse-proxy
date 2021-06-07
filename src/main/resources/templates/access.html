@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>允许使用反向代理的ip</title>
+    <th:block th:include="include :: common-head" />
+    <th:block th:include="include :: bootstrap" />
+</head>
+<body>
+    <table class="layui-table" style="color: black">
+        <tr th:each="access : ${accesses}">
+            <td>[[${access.allowIp}]]</td>
+        </tr>
+    </table>
+</body>
+</html>

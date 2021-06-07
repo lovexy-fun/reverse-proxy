@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+    <th:block th:include="include :: common-head" />
+    <th:block th:include="include :: bootstrap" />
+    <style type="text/css">
+        body {
+            background-color: #4c4c4c;
+        }
+        #content {
+            padding: 20px;
+            top: 100px;
+            width: 400px;
+            border-radius: 5px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="layui-container">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <input type="text" id="username" name="username" placeholder="用户名" required lay-verify="required" class="form-control">
+            </div>
+            <div class="layui-form-item">
+                <input type="password" id="password" name="password" placeholder="密码" required lay-verify="required" class="form-control">
+            </div>
+            <div class="layui-form-item">
+                <button type="submit" lay-submit lay-filter="login" class="layui-btn layui-btn-normal" style="width: 100%">登录</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        onSubmit("login", function (data) {
+            ajaxPost("login", data.field, function (res) {
+                if (res.success) {
+                    location.href = res.data;
+                } else {
+                    layer.msg("用户名或密码错误");
+                }
+            });
+        }, true);
+    });
+</script>
+</html>

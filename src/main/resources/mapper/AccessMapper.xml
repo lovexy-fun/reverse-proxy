@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.lovexy.reverseproxy.mapper.AccessMapper">
+
+    <resultMap id="BaseResultMap" type="fun.lovexy.reverseproxy.entity.Access">
+            <result property="mappingId" column="mapping_id" jdbcType="INTEGER"/>
+            <result property="allowIp" column="allow_ip" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTimestamp" column="create_timestamp" jdbcType="INTEGER"/>
+            <result property="modifyTimestamp" column="modify_timestamp" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        mapping_id,allow_ip,status,
+        create_timestamp,modify_timestamp
+    </sql>
+</mapper>

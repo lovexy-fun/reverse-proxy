@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>反向代理映射表</title>
+    <th:block th:include="include :: common-head" />
+    <th:block th:include="include :: bootstrap" />
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="layui-container">
+        <p>
+            <span style="color: red">说明：访问代理地址相当于访问内网地址</span>
+            <span><a href="manage">管理</a></span>
+        </p>
+        <table class="layui-table" style="color: black">
+            <thead>
+                <tr>
+                    <th>代理地址</th>
+                    <th>内网地址</th>
+                    <th>描述</th>
+                    <th>允许IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="mapping : ${mappings}">
+                    <td class="layui-col-md3">
+                        [[${hostname}]]:[[${mapping.selfPort}]]
+                    </td>
+                    <td class="layui-col-md3">
+                        [[${mapping.proxyIp}]]:[[${mapping.proxyPort}]]
+                    </td>
+                    <td class="layui-col-md5">
+                        [[${mapping.proxyDescription}]]
+                    </td>
+                    <td class="lauyi-col-md1">
+                        <button class="layui-btn layui-btn-xs layui-btn-normal" th:onclick="'showAllowedIps(' + ${mapping.id} + ')'">查看</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script type="text/javascript">
+    function showAllowedIps(id) {
+        openWin("允许使用反向代理的IP", "/access?id=" + id);
+    }
+</script>
+</html>

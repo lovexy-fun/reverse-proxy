@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>反向代理管理</title>
+    <th:block th:include="include :: common-head" />
+    <th:block th:include="include :: bootstrap" />
+</head>
+<body>
+    <div id="mapping-table"></div>
+</body>
+<script type="text/javascript" th:inline="none">
+    $(function () {
+        initTable({
+            elem: "#mapping-table",
+            url: ctx + "/manage",
+            method: "post",
+            toolbar: '#toolbar',
+            cols: [[
+                {field: 'id', hide: true},
+                {field: 'selfPort', title: '代理端口'},
+                {field: 'proxyIp', title: '内网IP'},
+                {field: 'proxyPort', title: '内网端口'},
+                {field: 'proxyDescription', title: '代理描述'},
+                {field: 'status', title: '状态', templet: '#statusTpl'},
+                {field: 'createTimestamp', title: '创建时间'},
+                {field: 'modifyTimestamp', title: '修改时间'},
+                {title: '访问控制', templet: '#accessTpl'},
+                {title: '操作', templet: '#optTpl'},
+            ]]
+        });
+        initSwitch("status", function (data) {
+            var status = data.elem.checked ? 0 : 1;
+            updateStatus(data.value, status);
+        });
+        initSwitch("nginxStatus", function (data) {
+            console.log(data.elem.checked)
+        });
+    });
+    function updateStatus(id, status) {
+        var index = layer.load(1);
+        ajaxPost(ctx + "/manage/update_status", {id: id, status: status}, function (res) {
+            layer.close(index);
+            tableReload("mapping-table");
+        });
+    }
+    function save() {
+        openWin("新增", ctx + "/manage/save", function (index, layero) {
+            tableReload("mapping-table");
+        }, "400px", "350px");
+    }
+    function update(id) {
+        openWin("新增", ctx + "/manage/save?id=" + id, function (index, layero) {
+            tableReload("mapping-table");
+        }, "400px", "350px");
+    }
+    function del(id) {
+        layer.confirm("确定删除吗？", function (index) {
+            ajaxPost(ctx + "/manage/delete", {id : id}, function (res) {
+                if (!res.success) {
+                    layer.msg("删除失败");
+                }
+                layer.close(index);
+                tableReload("mapping-table");
+            });
+        });
+    }
+    function accessManage(id, port) {
+        openWin(port + "端口访问控制", ctx + "/access/manage?mappingId=" + id, undefined, "600px", "500px");
+    }
+    function reloadNginx() {
+        var index = layer.load(1);
+        ajaxPost(ctx + "/nginx/reload", {}, function (res) {
+            if (res.success && res.data) {
+                layer.close(index, function () {
+                    layer.msg("应用成功");
+                });
+            } else {
+                layer.msg("应用失败");
+            }
+        });
+    }
+    function stopNginx() {
+        var index = layer.load(1);
+        ajaxPost(ctx + "/nginx/stop", {}, function (res) {
+            if (res.success && res.data) {
+                layer.close(index, function () {
+                    layer.msg("停止成功", function () {
+                        location.reload()
+                    });
+                });
+            } else {
+                layer.msg("停止失败");
+            }
+        });
+    }
+    function startNginx() {
+        var index = layer.load(1);
+        ajaxPost(ctx + "/nginx/start", {}, function (res) {
+            if (res.success && res.data) {
+                layer.close(index, function () {
+                    layer.msg("启动成功", function () {
+                        location.reload()
+                    });
+                });
+            } else {
+                layer.msg("启动失败");
+            }
+        });
+    }
+    function nginxStatus() {
+        var status = false;
+        ajaxPost(ctx + "/nginx/status", {}, function (res) {
+            status = res.data;
+        });
+        return status;
+    }
+</script>
+<script id="toolbar" type="text/html" th:inline="none">
+    <button onclick="save()" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon layui-icon-addition"></i></button>
+    {{# var status = nginxStatus() }}
+    {{# if (status) { }}
+        <button class="layui-btn layui-btn-sm layui-btn-warm" onclick="reloadNginx()">应用配置</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="stopNginx()">停止Nginx</button>
+    {{# } else { }}
+        <button class="layui-btn layui-btn-sm" onclick="startNginx()">启动Nginx</button>
+    {{# } }}
+</script>
+<script type="text/html" id="statusTpl" th:inline="none">
+    {{# if (d.status == 0) { }}
+        <input type="checkbox" value="{{ d.id }}" checked name="status" lay-filter="status" lay-skin="switch" lay-text="启用|禁用">
+    {{# } else if (d.status == 1) { }}
+        <input type="checkbox" value="{{ d.id }}" name="status" lay-filter="status" lay-skin="switch" lay-text="启用|禁用">
+    {{# } }}
+</script>
+<script type="text/html" id="optTpl">
+    <button onclick="update({{ d.id }})" class="layui-btn layui-btn-xs layui-btn">修改</button>
+    <button onclick="del({{ d.id }})" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+</script>
+<script id="accessTpl" type="text/html">
+    <button onclick="accessManage({{ d.id }}, {{ d.selfPort }})" class="layui-btn layui-btn-xs layui-btn-normal">管理</button>
+</script>
+</html>

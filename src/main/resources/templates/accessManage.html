@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>访问控制管理</title>
+    <th:block th:include="include :: common-head" />
+    <th:block th:include="include :: bootstrap" />
+</head>
+<body>
+     <div id="access-table"></div>
+</body>
+<script type="text/javascript" th:inline="none">
+    $(function () {
+        initTable({
+            elem: "#access-table",
+            url: ctx + "/access",
+            where: {mappingId : getUrlParams().mappingId},
+            method: "post",
+            toolbar: '#toolbar',
+            cols: [[
+                {field: 'mappingId', hide: true},
+                {field: 'allowIp', templet: '#allowIpTpl', unresize: true},
+            ]]
+        });
+    });
+    function add() {
+        layer.prompt({title : "请输入IP"}, function(value, index, elem) {
+            ajaxPost(ctx + "/access/add", {
+                mappingId : getUrlParams().mappingId,
+                allowIp : value
+            }, function (res) {
+                if (res.success) {
+                    layer.msg("保存成功");
+                    tableReload("access-table");
+                } else {
+                    layer.msg("保存失败");
+                }
+            });
+            layer.close(index);
+        });
+    }
+    function del(allowIp) {
+        ajaxPost(ctx + "/access/del", {
+            mappingId : getUrlParams().mappingId,
+            allowIp : allowIp
+        }, function (res) {
+            if (res.success) {
+                tableReload("access-table");
+            } else {
+                layer.msg("删除失败");
+            }
+        });
+    }
+</script>
+<script type="text/html" id="toolbar" th:inline="none">
+    <button onclick="add()" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon layui-icon-addition"></i></button>
+</script>
+<script type="text/html" id="allowIpTpl">
+    <p>
+        {{ d.allowIp }}
+        <button style="float: right;margin-top: 3px" onclick="del('{{ d.allowIp }}')" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+    </p>
+</script>
+</html>
