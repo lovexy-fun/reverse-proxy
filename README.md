@@ -9,4 +9,4 @@ Reverse proxy system based on nginx.
 
 ## 使用方法
 
-下载[release](https://github.com/lovexy-fun/reverse-proxy/releases/download/v1.0/reverse-proxy.zip)，解压后修改`application.yml`文件中的nginx路径和sqlite路径，双击start.bat运行。
+到 [release](https://github.com/lovexy-fun/reverse-proxy/releases) 页面下载，解压后修改`application.yml`文件中的系统登录账号和密码，双击start.bat运行。
