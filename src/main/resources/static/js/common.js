@@ -1,3 +1,18 @@
+$(function () {
+    redirect()
+})
+
+/**
+ * 重定向
+ */
+function redirect() {
+    var params = getUrlParams();
+    var redirectUri = params['redirect']
+    if (redirectUri != undefined && redirectUri != null && redirectUri.length != 0) {
+        top.location.href = redirectUri;
+    }
+}
+
 /**
  * ajax post请求
  * @param url

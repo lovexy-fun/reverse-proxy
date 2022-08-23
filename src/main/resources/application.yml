@@ -8,14 +8,14 @@ admin:
   password: admin
 
 nginx:
-  home: E:\ProjectSpace\IDEAProjects\reverse-proxy\nginx
+  home: ${BASEPATH}nginx
 
 server:
   port: 8999
 
 spring:
   datasource:
-    url: jdbc:sqlite:E:\ProjectSpace\IDEAProjects\reverse-proxy\reverse-proxy.db
+    url: jdbc:sqlite:${BASEPATH}reverse-proxy.db
     driver-class-name: org.sqlite.JDBC
   jackson:
     time-zone: GMT+8
@@ -29,7 +29,7 @@ spring:
 
 logging:
   level:
-    fun.lovexy.reverseproxy: debug
+    fun.lovexy.reverseproxy: info
   file:
     path: logs
 
